@@ -1,6 +1,20 @@
 import { Post } from '@/app/types/Post';
 import ButtonBack from './button-back';
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const post = await getById(id);
+
+  return {
+    title: post.title,
+    description: post.body,
+  };
+}
+
 async function getById(params: string): Promise<Post> {
   const res = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${params}`
